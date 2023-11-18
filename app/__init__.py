@@ -24,4 +24,9 @@ def create_app():
     from .views.pessoa_view import pessoa_bp
     app.register_blueprint(pessoa_bp)
 
+    # Cria as tabelas
+    with app.app_context():
+        db.create_all()
+
+
     return app

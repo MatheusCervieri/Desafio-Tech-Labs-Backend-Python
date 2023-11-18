@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.controllers.pessoa_controller import cadastrar_pessoa
 from app.views.validation_utils import validar_cpf, validar_data_nascimento , validar_estado_civil
+from app.models.pessoa import Pessoa
 
 
 pessoa_bp = Blueprint('pessoa', __name__)
@@ -28,6 +29,9 @@ def cadastrar():
         if not validar_estado_civil(data['estado_civil']):
             return jsonify({'error': 'Estado civil inválido.'}), 400
 
+        # Checar na database se o cpf já existe
+        if Pessoa.query.filter_by(cpf=data['cpf']).first():
+            return jsonify({'error': 'CPF já cadastrado.'}), 400
 
         #Checar na database se o cpf já existe. 
 
