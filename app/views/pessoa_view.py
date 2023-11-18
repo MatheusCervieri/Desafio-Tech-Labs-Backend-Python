@@ -103,3 +103,57 @@ def listar_pessoas():
 
         # Retornar detalhes do erro na resposta JSON
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+
+@pessoa_bp.route('/pessoas/<string:cpf>', methods=['GET'])
+def obter_pessoa_por_cpf(cpf):
+    try:
+        pessoa = Pessoa.query.filter_by(cpf=cpf).first()
+
+        if pessoa:
+            # Retorna os dados da pessoa
+            return jsonify({
+                'id': pessoa.id,
+                'nome_completo': pessoa.nome_completo,
+                'data_nascimento': pessoa.data_nascimento,
+                'endereco': pessoa.endereco,
+                'cpf': pessoa.cpf,
+                'estado_civil': pessoa.estado_civil
+            })
+        else:
+            print("Pessoa não encontrada.")
+            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+
+    except Exception as e:
+        # Imprimir detalhes do erro no console
+        print(f'Erro ao obter pessoa por CPF: {str(e)}')
+
+        # Retornar detalhes do erro na resposta JSON
+        
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+
+@pessoa_bp.route('/pessoas/id/<int:pessoa_id>', methods=['GET'])
+def obter_pessoa_por_id(pessoa_id):
+    try:
+        pessoa = Pessoa.query.get(pessoa_id)
+
+        if pessoa:
+            # Retorna os dados da pessoa
+            return jsonify({
+                'id': pessoa.id,
+                'nome_completo': pessoa.nome_completo,
+                'data_nascimento': pessoa.data_nascimento,
+                'endereco': pessoa.endereco,
+                'cpf': pessoa.cpf,
+                'estado_civil': pessoa.estado_civil
+            })
+        else:
+            # ID não encontrado
+            print("Pessoa não encontrada.")
+            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+
+    except Exception as e:
+        # Imprimir detalhes do erro no console
+        print(f'Erro ao obter pessoa por ID: {str(e)}')
+
+        # Retornar detalhes do erro na resposta JSON
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
