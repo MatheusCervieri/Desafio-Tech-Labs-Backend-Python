@@ -11,6 +11,7 @@ def validar_data_nascimento(data_nascimento):
         return True
     except ValueError:
         return False
+
     
 def validar_estado_civil(estado_civil):
     estados_civis_validos = ['solteiro', 'casado', 'divorciado', 'viuvo']

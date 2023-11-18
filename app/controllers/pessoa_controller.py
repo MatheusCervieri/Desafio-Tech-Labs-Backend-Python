@@ -17,3 +17,10 @@ def cadastrar_pessoa(nome_completo, data_nascimento, endereco, cpf, estado_civil
     db.session.commit()
 
     return nova_pessoa
+
+def atualizar_pessoa_db(pessoa):
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        raise e

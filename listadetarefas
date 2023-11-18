@@ -1,2 +1,3 @@
---> Criar a rota para cadastrar pessoas. 
--->Provavelmente não vou precisar de uma pasta de configuração. 
+- Passar as execuções das funções para o controller de forma que fique mais organizado. 
+
+-Provavelmente não vou precisar de uma pasta de configuração. 

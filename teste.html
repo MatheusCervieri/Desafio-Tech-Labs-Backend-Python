@@ -46,6 +46,26 @@
     <button type="button" onclick="buscarPessoaPorId()">Buscar por ID</button>
     <pre id="pessoaPorId"></pre>
 
+    <h2>Atualizar Pessoa por ID</h2>
+    <form id="atualizarPorIdForm">
+        <label for="atualizarId">ID da Pessoa a Atualizar:</label>
+        <input type="text" id="atualizarId" name="atualizarId" required><br>
+
+        <label for="atualizarNome">Novo Nome:</label>
+        <input type="text" id="atualizarNome" name="atualizarNome"><br>
+
+        <label for="atualizarDataNascimento">Nova Data de Nascimento (YYYY-MM-DD):</label>
+        <input type="text" id="atualizarDataNascimento" name="atualizarDataNascimento"><br>
+
+        <label for="atualizarEndereco">Novo Endereço:</label>
+        <input type="text" id="atualizarEndereco" name="atualizarEndereco"><br>
+
+        <label for="atualizarEstadoCivil">Novo Estado Civil:</label>
+        <input type="text" id="atualizarEstadoCivil" name="atualizarEstadoCivil"><br>
+
+        <button type="button" onclick="atualizarPessoaPorId()">Atualizar</button>
+    </form>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function cadastrarPessoa() {
@@ -98,6 +118,28 @@
             const pessoaId = document.getElementById('buscarId').value;
 
             axios.get(`http://localhost:5000/pessoas/id/${pessoaId}`)
+                .then(response => {
+                    console.log(response);
+                    document.getElementById('pessoaPorId').innerText = JSON.stringify(response.data, null, 2);
+                })
+                .catch(error => {
+                    console.log(error)
+                    document.getElementById('pessoaPorId').innerText = JSON.stringify(error.response.data, null, 2);
+                });
+        }
+
+        function atualizarPessoaPorId() {
+            const pessoaId = document.getElementById('atualizarId').value;
+            const form = document.getElementById('atualizarPorIdForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            formData.forEach((value, key) => {
+                if (key != 'atualizarId')
+                data[key] = value;
+            });
+            console.log("Data", data)
+            axios.put(`http://localhost:5000/pessoas/id/${pessoaId}`, data)
                 .then(response => {
                     console.log(response);
                     document.getElementById('pessoaPorId').innerText = JSON.stringify(response.data, null, 2);
