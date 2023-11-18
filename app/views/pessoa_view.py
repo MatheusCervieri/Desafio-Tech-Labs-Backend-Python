@@ -9,7 +9,6 @@ pessoa_bp = Blueprint('pessoa', __name__)
 
 @pessoa_bp.route('/pessoas/adicionar', methods=['POST'])
 def cadastrar():
-    print("Chegou aqui")
     try:
         data = request.get_json()
 
@@ -17,23 +16,31 @@ def cadastrar():
         required_fields = ['nome_completo', 'data_nascimento', 'endereco', 'cpf', 'estado_civil']
         for field in required_fields:
             if field not in data or not data[field]:
-                return jsonify({'error': f'O campo {field} é obrigatório.'}), 400
+                error_message = f'O campo {field} é obrigatório.'
+                print(error_message)
+                return jsonify({'error': error_message}), 400
 
-        # Validar formato de CPF e data de nascimento
+        # Validar formato de CPF, data de nascimento e estado civil
         if not validar_cpf(data['cpf']):
-            return jsonify({'error': 'CPF inválido.'}), 400
+            error_message = 'CPF inválido.'
+            print(error_message)
+            return jsonify({'error': error_message}), 400
 
         if not validar_data_nascimento(data['data_nascimento']):
-            return jsonify({'error': 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'}), 400
+            error_message = 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'
+            print(error_message)
+            return jsonify({'error': error_message}), 400
         
         if not validar_estado_civil(data['estado_civil']):
-            return jsonify({'error': 'Estado civil inválido.'}), 400
+            error_message = 'Estado civil inválido.'
+            print(error_message)
+            return jsonify({'error': error_message}), 400
 
         # Checar na database se o cpf já existe
         if Pessoa.query.filter_by(cpf=data['cpf']).first():
-            return jsonify({'error': 'CPF já cadastrado.'}), 400
-
-        #Checar na database se o cpf já existe. 
+            error_message = 'CPF já cadastrado.'
+            print(error_message)
+            return jsonify({'error': error_message}), 400
 
         # Extrair dados
         nome_completo = data['nome_completo']
@@ -60,10 +67,39 @@ def cadastrar():
             'cpf': nova_pessoa.cpf,
             'estado_civil': nova_pessoa.estado_civil
         }), 201  # 201 Created é apropriado para criação de recursos
-
+    
     except Exception as e:
         # Imprimir detalhes do erro no console
         print(f'Erro no cadastro de pessoa: {str(e)}')
+
+        # Retornar detalhes do erro na resposta JSON
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+    
+@pessoa_bp.route('/pessoas', methods=['GET'])
+def listar_pessoas():
+    try:
+        # Consultar todas as pessoas cadastradas
+        pessoas = Pessoa.query.all()
+
+        # Criar lista de dicionários com informações sobre cada pessoa
+        pessoas_info = []
+        for pessoa in pessoas:
+            pessoa_info = {
+                'id': pessoa.id,
+                'nome_completo': pessoa.nome_completo,
+                'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
+                'endereco': pessoa.endereco,
+                'cpf': pessoa.cpf,
+                'estado_civil': pessoa.estado_civil
+            }
+            pessoas_info.append(pessoa_info)
+
+        # Resposta de sucesso
+        return jsonify({'pessoas': pessoas_info}), 200
+
+    except Exception as e:
+        # Imprimir detalhes do erro no console
+        print(f'Erro ao listar pessoas: {str(e)}')
 
         # Retornar detalhes do erro na resposta JSON
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
