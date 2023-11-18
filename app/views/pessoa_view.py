@@ -165,63 +165,9 @@ def obter_pessoa_por_id(pessoa_id):
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
     
 
-# Preciso checar se o objeto que é recebido na requisição possui algum dos campos que eu quero atualizar.
-# Se sim, eu preciso fazer a validação e ver se o valor que está no objeto é um valor válido para ser atualizado. 
-# Se sim, eu atualizo o valor do objeto pessoa com o valor que está no objeto recebido na requisição.
-# Se não, eu retorno um erro apropiado. Ou eu falo que a requisição não enviou um objeto correto ou explico o que está errado na atualização do campo. 
+#Preciso receber um objeto com campo que será modificado e valor.
+#Preciso saber se o campo é efetivamente um campo da entidade pessoa.
+#Preciso saber se o valor é válido para o campo. Se for modifico, se não for, retorno um erro. 
 @pessoa_bp.route('/pessoas/id/<int:pessoa_id>', methods=['PUT'])
 def atualizar_pessoa_por_id(pessoa_id):
-    try:
-        # Obter os dados da solicitação JSON
-        data = request.get_json()
-
-        # Buscar a pessoa no banco de dados
-        pessoa = Pessoa.query.get(pessoa_id)
-
-        # Verificar se a pessoa foi encontrada
-        if not pessoa:
-            return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
-        # Imprimir os dados recebidos na requisição
-        print(data)
-
-        # Obter os nomes dos campos da instância Pessoa
-        campos_validos = [column.key for column in Pessoa.__table__.columns]
-    
-        # Atualizar os campos no objeto pessoa
-    
-        for campo in campos_validos:
-            if campo in data:
-                novo_valor = data[campo]
-                if campo == 'cpf':
-                    if not validar_cpf(novo_valor):
-                        return jsonify({'error': 'CPF inválido.'}), 400
-                elif campo == 'data_nascimento':
-                    if not validar_data_nascimento(novo_valor):
-                        return jsonify({'error': 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'}), 400
-                    novo_valor = datetime.strptime(novo_valor, '%Y-%m-%d').date()
-                elif campo == 'estado_civil':
-                    if not validar_estado_civil(novo_valor):
-                        return jsonify({'error': 'Estado civil inválido.'}), 400
-        if(novo_valor):
-            setattr(pessoa, campo, novo_valor)
-
-            # Atualizar a instância no banco de dados
-            atualizar_pessoa_db(pessoa)
-
-            # Resposta de sucesso
-            return jsonify({
-                'id': pessoa.id,
-                'nome_completo': pessoa.nome_completo,
-                'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
-                'endereco': pessoa.endereco,
-                'cpf': pessoa.cpf,
-                'estado_civil': pessoa.estado_civil
-            }), 200
-        else : 
-                return jsonify({'error': 'Requisição inválida. O objeto passado não possui nenhum campo válido. Ele precisa ter pelo menos um campo igual ao fornecido pelo objeto'}), 400
-
-    except Exception as e:
-        print(f'Erro ao atualizar pessoa por ID: {str(e)}')
-
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+   return "Hello World"
