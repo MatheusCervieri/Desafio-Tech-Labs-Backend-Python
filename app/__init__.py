@@ -5,7 +5,6 @@ from flask_cors import CORS
 db = SQLAlchemy()
 
 def create_app():
-    print("teste")
     app = Flask(__name__)
     CORS(app)
     
@@ -14,15 +13,17 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    print("teste2")
+
 
     # Inicializações
     db.init_app(app)
-    print("teste3")
+
 
     # Registra blueprints
     from .views.pessoa_view import pessoa_bp
     app.register_blueprint(pessoa_bp)
+    from app.views.teste_view import teste_bp
+    app.register_blueprint(teste_bp)
 
     # Cria as tabelas
     with app.app_context():

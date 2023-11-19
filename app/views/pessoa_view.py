@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.controllers.pessoa_controller import cadastrar_pessoa , atualizar_db , deletar_pessoa_db
 from app.views.validation_utils import validar_cpf, validar_data_nascimento , validar_estado_civil
+
 from app.models.pessoa import Pessoa
 
 
@@ -60,6 +61,7 @@ def cadastrar():
 
         # Resposta de sucesso
         return jsonify({
+            'message': 'Pessoa cadastrada com sucesso.',
             'id': nova_pessoa.id,
             'nome_completo': nova_pessoa.nome_completo,
             'data_nascimento': nova_pessoa.data_nascimento,
@@ -117,6 +119,7 @@ def obter_pessoa_por_cpf(cpf):
         if pessoa:
             # Retorna os dados da pessoa
             return jsonify({
+                'message': 'Pessoa encontrada.',
                 'id': pessoa.id,
                 'nome_completo': pessoa.nome_completo,
                 'data_nascimento': pessoa.data_nascimento,
@@ -144,6 +147,7 @@ def obter_pessoa_por_id(pessoa_id):
         if pessoa:
             # Retorna os dados da pessoa
             return jsonify({
+                'message': 'Pessoa encontrada.',
                 'id': pessoa.id,
                 'nome_completo': pessoa.nome_completo,
                 'data_nascimento': pessoa.data_nascimento,
@@ -200,6 +204,7 @@ def atualizar_pessoa_por_id(pessoa_id):
 
         # Resposta de sucesso
         return jsonify({
+            'message': 'Pessoa atualizada com sucesso.',
             'id': pessoa.id,
             'nome_completo': pessoa.nome_completo,
             'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
