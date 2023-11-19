@@ -1,6 +1,5 @@
-import datetime
 from flask import Blueprint, request, jsonify
-from app.controllers.pessoa_controller import cadastrar_pessoa , atualizar_pessoa_db
+from app.controllers.pessoa_controller import cadastrar_pessoa , atualizar_pessoa_db , deletar_pessoa_db
 from app.views.validation_utils import validar_cpf, validar_data_nascimento , validar_estado_civil
 from app.models.pessoa import Pessoa
 
@@ -171,3 +170,38 @@ def obter_pessoa_por_id(pessoa_id):
 @pessoa_bp.route('/pessoas/id/<int:pessoa_id>', methods=['PUT'])
 def atualizar_pessoa_por_id(pessoa_id):
    return "Hello World"
+
+@pessoa_bp.route('/pessoas/delete/id/<int:pessoa_id>', methods=['DELETE'])
+def deletar_pessoa_por_id(pessoa_id):
+    try:
+        pessoa = Pessoa.query.get(pessoa_id)
+
+        if pessoa:
+            if deletar_pessoa_db(pessoa):  
+                return jsonify({'message': 'Pessoa deletada com sucesso.'}), 200
+            else:
+                return jsonify({'error': 'Erro ao deletar pessoa.'}), 500
+        else:
+            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+
+    except Exception as e:
+        print(f'Erro ao deletar pessoa por ID: {str(e)}')
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+
+@pessoa_bp.route('/pessoas/delete/cpf/<string:cpf>', methods=['DELETE'])
+def deletar_pessoa_por_cpf(cpf):
+    try:
+        pessoa = Pessoa.query.filter_by(cpf=cpf).first()
+
+        if pessoa:
+            if deletar_pessoa_db(pessoa): 
+                return jsonify({'message': 'Pessoa deletada com sucesso.'}), 200
+            else:
+                return jsonify({'error': 'Erro ao deletar pessoa.'}), 500
+        else:
+            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+
+    except Exception as e:
+        print(f'Erro ao deletar pessoa por CPF: {str(e)}')
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+

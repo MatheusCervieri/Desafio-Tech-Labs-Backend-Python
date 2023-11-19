@@ -66,6 +66,22 @@
         <button type="button" onclick="atualizarPessoaPorId()">Atualizar</button>
     </form>
 
+    <h2>Deletar Pessoa por ID</h2>
+    <form id="deletarPorIdForm">
+        <label for="deletarId">ID da Pessoa a Deletar:</label>
+        <input type="text" id="deletarId" name="deletarId" required><br>
+        <button type="button" onclick="deletarPessoaPorId()">Deletar por ID</button>
+    </form>
+
+    <h2>Deletar Pessoa por CPF</h2>
+    <form id="deletarPorCpfForm">
+        <label for="deletarCpf">CPF da Pessoa a Deletar:</label>
+        <input type="text" id="deletarCpf" name="deletarCpf" required><br>
+        <button type="button" onclick="deletarPessoaPorCpf()">Deletar por CPF</button>
+    </form>
+
+<pre id="deletarPessoaResultado"></pre>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function cadastrarPessoa() {
@@ -149,6 +165,33 @@
                     document.getElementById('pessoaPorId').innerText = JSON.stringify(error.response.data, null, 2);
                 });
         }
+        function deletarPessoaPorId() {
+            const pessoaId = document.getElementById('deletarId').value;
+
+            axios.delete(`http://localhost:5000/pessoas/delete/id/${pessoaId}`)
+                .then(response => {
+                    console.log(response);
+                    document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(response.data, null, 2);
+                })
+                .catch(error => {
+                    console.log(error)
+                    document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(error.response.data, null, 2);
+                });
+        }
+
+    function deletarPessoaPorCpf() {
+        const cpf = document.getElementById('deletarCpf').value;
+
+        axios.delete(`http://localhost:5000/pessoas/delete/cpf/${cpf}`)
+            .then(response => {
+                console.log(response);
+                document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(response.data, null, 2);
+            })
+            .catch(error => {
+                console.log(error)
+                document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(error.response.data, null, 2);
+            });
+    }
     </script>
 
 </body>

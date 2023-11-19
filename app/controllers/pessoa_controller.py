@@ -24,3 +24,14 @@ def atualizar_pessoa_db(pessoa):
     except Exception as e:
         db.session.rollback()
         raise e
+
+def deletar_pessoa_db(pessoa):
+    try:
+        db.session.delete(pessoa)
+        db.session.commit()
+        return True  
+
+    except Exception as e:
+        print(f'Erro ao deletar pessoa: {str(e)}')
+        db.session.rollback()
+        return False  
