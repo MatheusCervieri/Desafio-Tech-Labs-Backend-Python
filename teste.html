@@ -65,6 +65,10 @@
 
         <button type="button" onclick="atualizarPessoaPorId()">Atualizar</button>
     </form>
+    
+
+<!-- Resultado da Atualização -->
+<pre id="resultadoAtualizacao"></pre>
 
     <h2>Deletar Pessoa por ID</h2>
     <form id="deletarPorIdForm">
@@ -192,6 +196,7 @@
                 document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(error.response.data, null, 2);
             });
     }
+    
     </script>
 
 </body>

@@ -1,4 +1,8 @@
-- Criar funções que deletam primeiro. 
-- Passar as execuções das funções para o controller de forma que fique mais organizado. 
+- Criar a função que edita os campos de uma pessoa por ID.
+- Criar a função que edita os dados de uma pessoa por cpf. 
+
+- Organizar melhor o que vai no controller e o que não vai. 
+
+- Criar funções que testam as rotas utilizando uma biblioteca de testes.
 
 -Provavelmente não vou precisar de uma pasta de configuração. 
