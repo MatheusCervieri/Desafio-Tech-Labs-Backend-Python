@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE"])
     
     # Configurações do aplicativo
     app.config.from_object('config.config')

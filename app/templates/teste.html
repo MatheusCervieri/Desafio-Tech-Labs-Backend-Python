@@ -45,30 +45,8 @@
     <input type="text" id="buscarId" name="buscarId" required>
     <button type="button" onclick="buscarPessoaPorId()">Buscar por ID</button>
     <pre id="pessoaPorId"></pre>
-
-    <h2>Atualizar Pessoa por ID</h2>
-    <form id="atualizarPorIdForm">
-        <label for="atualizarId">ID da Pessoa a Atualizar:</label>
-        <input type="text" id="atualizarId" name="atualizarId" required><br>
-
-        <label for="atualizarNome">Novo Nome:</label>
-        <input type="text" id="atualizarNome" name="atualizarNome"><br>
-
-        <label for="atualizarDataNascimento">Nova Data de Nascimento (YYYY-MM-DD):</label>
-        <input type="text" id="atualizarDataNascimento" name="atualizarDataNascimento"><br>
-
-        <label for="atualizarEndereco">Novo Endereço:</label>
-        <input type="text" id="atualizarEndereco" name="atualizarEndereco"><br>
-
-        <label for="atualizarEstadoCivil">Novo Estado Civil:</label>
-        <input type="text" id="atualizarEstadoCivil" name="atualizarEstadoCivil"><br>
-
-        <button type="button" onclick="atualizarPessoaPorId()">Atualizar</button>
-    </form>
     
 
-<!-- Resultado da Atualização -->
-<pre id="resultadoAtualizacao"></pre>
 
     <h2>Deletar Pessoa por ID</h2>
     <form id="deletarPorIdForm">
@@ -85,6 +63,42 @@
     </form>
 
 <pre id="deletarPessoaResultado"></pre>
+
+<h2>Atualizar Pessoa por ID</h2>
+<form id="atualizarPorIdForm">
+    <label for="atualizarId">ID da Pessoa a Atualizar:</label>
+    <input type="text" id="atualizarId" name="atualizarId" required><br>
+
+    <label for="campo">Campo a Atualizar:</label>
+    <input type="text" id="campo" name="campo" required><br>
+
+    <label for="novoValor">Novo Valor:</label>
+    <input type="text" id="novoValor" name="novoValor" required><br>
+
+    <button type="button" onclick="atualizarPessoaPorId()">Atualizar</button>
+</form>
+
+<!-- Resultado da Atualização -->
+<pre id="resultadoAtualizacao"></pre>
+
+<h2>Atualizar Pessoa por CPF</h2>
+    <form id="atualizarPorCpfForm">
+        <label for="atualizarCpf">CPF da Pessoa a Atualizar:</label>
+        <input type="text" id="atualizarCpf" name="atualizarCpf" required><br>
+
+        <label for="atualizarCampo">Campo a Atualizar:</label>
+        <input type="text" id="atualizarCampo" name="atualizarCampo" required><br>
+
+        <label for="atualizarValor">Novo Valor:</label>
+        <input type="text" id="atualizarValor" name="atualizarValor" required><br>
+
+        <button type="button" onclick="atualizarPessoaPorCpf()">Atualizar</button>
+    </form>
+
+    <!-- Resultado da Atualização -->
+    <pre id="resultadoAtualizacaoCPF"></pre>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -196,7 +210,50 @@
                 document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(error.response.data, null, 2);
             });
     }
-    
+
+    function atualizarPessoaPorId() {
+            const pessoaId = document.getElementById('atualizarId').value;
+            const campo = document.getElementById('campo').value;
+            const novoValor = document.getElementById('novoValor').value;
+
+            const data = {
+                campo: campo,
+                novo_valor: novoValor
+            };
+            
+            axios.put(`http://localhost:5000/pessoas/edit/id/${pessoaId}`, data)
+                .then(response => {
+                    console.log(response);
+                    document.getElementById('resultadoAtualizacao').innerText = JSON.stringify(response.data, null, 2);
+                })
+                .catch(error => {
+                    console.log(error)
+                    document.getElementById('resultadoAtualizacao').innerText = JSON.stringify(error.response.data, null, 2);
+                });
+        }
+
+        function atualizarPessoaPorCpf() {
+            const cpf = document.getElementById('atualizarCpf').value;
+            const campo = document.getElementById('atualizarCampo').value;
+            const novoValor = document.getElementById('atualizarValor').value;
+
+            const data = {
+                campo: campo,
+                novo_valor: novoValor
+            };
+
+            axios.put(`http://localhost:5000/pessoas/edit/cpf/${cpf}`, data)
+                .then(response => {
+                    console.log(response);
+                    document.getElementById('resultadoAtualizacaoCPF').innerText = JSON.stringify(response.data, null, 2);
+                })
+                .catch(error => {
+                    console.log(error);
+                    document.getElementById('resultadoAtualizacaoCPF').innerText = JSON.stringify(error.response.data, null, 2);
+                });
+        }
+
+
     </script>
 
 </body>
