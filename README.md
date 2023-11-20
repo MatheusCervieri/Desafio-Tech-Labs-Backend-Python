@@ -12,26 +12,27 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 
 ### Passos:
 
-```bash
 # 1. Clone o Repositório:
-git clone https://github.com/seu-usuario/seu-repositorio.git
 
 # 2. Acesse o Diretório do Projeto:
-cd seu-repositorio
+cd diretório-clonado
 
 # 3. Instale as Dependências:
+```bash
 pip install -r requirements.txt
+```
 
-# 4. Configure o Ambiente:
-# Dependendo do framework escolhido, pode ser necessário configurar variáveis de ambiente ou ajustar configurações específicas do projeto. Consulte a documentação do framework para obter detalhes.
+# 4. Execute a Aplicação:
+```bash
+flask run 
+```
 
-# 5. Execute a Aplicação:
-python app.py
-# O servidor será iniciado e a aplicação estará acessível localmente.
+# 5. Teste as Funcionalidades:
+Abra um navegador e acesse http://localhost:5000/teste (ou outra porta configurada).
 
-# 6. Teste as Funcionalidades:
-# Abra um navegador e acesse http://localhost:5000 (ou outra porta configurada).
-# Utilize a interface da aplicação ou ferramentas como curl ou Postman para testar as operações de CRUD.
+Essa rota irá abrir uma página html teste que permitirá que você teste a aplicação. 
+
+Você também pode utilizar ferramentas como curl ou Postman para testar as operações de CRUD.
 
 ## Visual Overview
 
