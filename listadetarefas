@@ -1,11 +1,6 @@
-1- Pensar em todas as validações possíveis. 
-2. Validação de Dados:
-• Validar os dados recebidos para garantir que estejam corretos e seguros.
-• Tratar erros e exceções de forma apropriada.
-Impedir qualquer tipo de ataque sabendo que estou usando como database o SQLAlchemy()
-3- Organizar um pouco melhor o que va no controler e o que não vai. 
+
 4- Teste para as rotas. - Criar funções que testam as rotas utilizando uma biblioteca de testes.
-5- Remover os comentários inúteis. 
+
 6- Remover a pasta de configuração e o código respectivo. 
 7- Criar o readme.md básico para rodar o programa.
 8- Melhor a página de teste. 
