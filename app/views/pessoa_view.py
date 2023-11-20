@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.controllers.pessoa_controller import cadastrar_pessoa , atualizar_db , deletar_pessoa_db
 from app.views.validation_utils import validar_cpf, validar_data_nascimento , validar_estado_civil
 from app.models.pessoa import Pessoa
+from app import logger
 
 
 pessoa_bp = Blueprint('pessoa', __name__)
@@ -17,29 +18,29 @@ def cadastrar():
         for field in required_fields:
             if field not in data or not data[field]:
                 error_message = f'O campo {field} é obrigatório.'
-                print(error_message)
+                logger.error(error_message)
                 return jsonify({'error': error_message}), 400
 
         # Validar formato de CPF, data de nascimento e estado civil
         if not validar_cpf(data['cpf']):
             error_message = 'CPF inválido.'
-            print(error_message)
+            logger.error(error_message)
             return jsonify({'error': error_message}), 400
 
         if not validar_data_nascimento(data['data_nascimento']):
             error_message = 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'
-            print(error_message)
+            logger.error(error_message)
             return jsonify({'error': error_message}), 400
         
         if not validar_estado_civil(data['estado_civil']):
             error_message = 'Estado civil inválido.'
-            print(error_message)
+            logger.error(error_message)
             return jsonify({'error': error_message}), 400
 
         # Checar na database se o cpf já existe
         if Pessoa.query.filter_by(cpf=data['cpf']).first():
             error_message = 'CPF já cadastrado.'
-            print(error_message)
+            logger.error(error_message)
             return jsonify({'error': error_message}), 400
 
         # Extrair dados
@@ -68,108 +69,14 @@ def cadastrar():
             'cpf': nova_pessoa.cpf,
             'estado_civil': nova_pessoa.estado_civil
         }), 201  # 201 Created é apropriado para criação de recursos
-    
-    except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro no cadastro de pessoa: {str(e)}')
 
-        # Retornar detalhes do erro na resposta JSON
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
-    
-@pessoa_bp.route('/pessoas', methods=['GET'])
-def listar_pessoas():
-    try:
-        # Consultar todas as pessoas cadastradas
-        pessoas = Pessoa.query.all()
-
-        # Criar lista de dicionários com informações sobre cada pessoa
-        pessoas_info = []
-        for pessoa in pessoas:
-            pessoa_info = {
-                'id': pessoa.id,
-                'nome_completo': pessoa.nome_completo,
-                'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
-                'endereco': pessoa.endereco,
-                'cpf': pessoa.cpf,
-                'estado_civil': pessoa.estado_civil
-            }
-            pessoas_info.append(pessoa_info)
-
-        # Resposta de sucesso
-        return jsonify({'pessoas': pessoas_info}), 200
 
     except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro ao listar pessoas: {str(e)}')
-
-        # Retornar detalhes do erro na resposta JSON
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
-
-@pessoa_bp.route('/pessoas/<string:cpf>', methods=['GET'])
-def obter_pessoa_por_cpf(cpf):
-    try:
-        if not validar_cpf(cpf):
-            error_message = 'CPF inválido.'
-            print(error_message)
-            return jsonify({'error': error_message}), 400
-        
-        pessoa = Pessoa.query.filter_by(cpf=cpf).first()
-
-        if pessoa:
-            # Retorna os dados da pessoa
-            return jsonify({
-                'message': 'Pessoa encontrada.',
-                'id': pessoa.id,
-                'nome_completo': pessoa.nome_completo,
-                'data_nascimento': pessoa.data_nascimento,
-                'endereco': pessoa.endereco,
-                'cpf': pessoa.cpf,
-                'estado_civil': pessoa.estado_civil
-            })
-        else:
-            print("Pessoa não encontrada.")
-            return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
-    except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro ao obter pessoa por CPF: {str(e)}')
-
-        # Retornar detalhes do erro na resposta JSON
-        
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
-
-@pessoa_bp.route('/pessoas/id/<int:pessoa_id>', methods=['GET'])
-def obter_pessoa_por_id(pessoa_id):
-    try:
-        pessoa = Pessoa.query.get(pessoa_id)
-
-        if pessoa:
-            # Retorna os dados da pessoa
-            return jsonify({
-                'message': 'Pessoa encontrada.',
-                'id': pessoa.id,
-                'nome_completo': pessoa.nome_completo,
-                'data_nascimento': pessoa.data_nascimento,
-                'endereco': pessoa.endereco,
-                'cpf': pessoa.cpf,
-                'estado_civil': pessoa.estado_civil
-            })
-        else:
-            # ID não encontrado
-            print("Pessoa não encontrada ou id inválido.")
-            return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
-    except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro ao obter pessoa por ID: {str(e)}')
-
-        # Retornar detalhes do erro na resposta JSON
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+        # Capturar exceção genérica
+        logger.error(f'Erro no cadastro de pessoa: {str(e)}')
+        return jsonify({'error': 'Ocorreu um erro interno no servidor. Tente novamente mais tarde.'}), 500
     
 
-#Preciso receber um objeto com apenas um campo que será modificado e o novo valor para esse campo.
-#Preciso saber se o campo é efetivamente um campo da entidade pessoa.
-#Preciso saber se o valor é válido para o campo. Se for modifico, se não for, retorno um erro. 
 @pessoa_bp.route('/pessoas/edit/id/<int:pessoa_id>', methods=['PUT'])
 def atualizar_pessoa_por_id(pessoa_id):
     try:
@@ -291,6 +198,99 @@ def atualizar_pessoa_por_cpf(pessoa_cpf):
     except Exception as e:
         print(f'Erro ao atualizar pessoa por CPF: {str(e)}')
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+    
+@pessoa_bp.route('/pessoas', methods=['GET'])
+def listar_pessoas():
+    try:
+        # Consultar todas as pessoas cadastradas
+        pessoas = Pessoa.query.all()
+
+        # Criar lista de dicionários com informações sobre cada pessoa
+        pessoas_info = []
+        for pessoa in pessoas:
+            pessoa_info = {
+                'id': pessoa.id,
+                'nome_completo': pessoa.nome_completo,
+                'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
+                'endereco': pessoa.endereco,
+                'cpf': pessoa.cpf,
+                'estado_civil': pessoa.estado_civil
+            }
+            pessoas_info.append(pessoa_info)
+
+        # Resposta de sucesso
+        return jsonify({'pessoas': pessoas_info}), 200
+
+    except Exception as e:
+        # Imprimir detalhes do erro no console
+        print(f'Erro ao listar pessoas: {str(e)}')
+
+        # Retornar detalhes do erro na resposta JSON
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+
+@pessoa_bp.route('/pessoas/<string:cpf>', methods=['GET'])
+def obter_pessoa_por_cpf(cpf):
+    try:
+        if not validar_cpf(cpf):
+            error_message = 'CPF inválido.'
+            print(error_message)
+            return jsonify({'error': error_message}), 400
+        
+        pessoa = Pessoa.query.filter_by(cpf=cpf).first()
+
+        if pessoa:
+            # Retorna os dados da pessoa
+            return jsonify({
+                'message': 'Pessoa encontrada.',
+                'id': pessoa.id,
+                'nome_completo': pessoa.nome_completo,
+                'data_nascimento': pessoa.data_nascimento,
+                'endereco': pessoa.endereco,
+                'cpf': pessoa.cpf,
+                'estado_civil': pessoa.estado_civil
+            })
+        else:
+            print("Pessoa não encontrada.")
+            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+
+    except Exception as e:
+        # Imprimir detalhes do erro no console
+        print(f'Erro ao obter pessoa por CPF: {str(e)}')
+
+        # Retornar detalhes do erro na resposta JSON
+        
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+
+@pessoa_bp.route('/pessoas/id/<int:pessoa_id>', methods=['GET'])
+def obter_pessoa_por_id(pessoa_id):
+    try:
+        pessoa = Pessoa.query.get(pessoa_id)
+
+        if pessoa:
+            # Retorna os dados da pessoa
+            return jsonify({
+                'message': 'Pessoa encontrada.',
+                'id': pessoa.id,
+                'nome_completo': pessoa.nome_completo,
+                'data_nascimento': pessoa.data_nascimento,
+                'endereco': pessoa.endereco,
+                'cpf': pessoa.cpf,
+                'estado_civil': pessoa.estado_civil
+            })
+        else:
+            # ID não encontrado
+            print("Pessoa não encontrada ou id inválido.")
+            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+
+    except Exception as e:
+        # Imprimir detalhes do erro no console
+        print(f'Erro ao obter pessoa por ID: {str(e)}')
+
+        # Retornar detalhes do erro na resposta JSON
+        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+    
+
+
 
 @pessoa_bp.route('/pessoas/delete/id/<int:pessoa_id>', methods=['DELETE'])
 def deletar_pessoa_por_id(pessoa_id):
