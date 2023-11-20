@@ -88,6 +88,11 @@ def atualizar_pessoa_por_id(pessoa_id):
             return jsonify({'error': error_message}), 400
 
 
+        if data['campo'] == 'id':
+            error_message = 'O campo id não pode ser alterado.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
+    
         pessoa = Pessoa.query.get(pessoa_id)
 
        
@@ -153,6 +158,10 @@ def atualizar_pessoa_por_cpf(pessoa_cpf):
             logger.error(error_message)
             return jsonify({'error': error_message}), 400
 
+        if data['campo'] == 'id':
+            error_message = 'O campo id não pode ser alterado.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
      
         pessoa = Pessoa.query.filter_by(cpf=pessoa_cpf).first()
 

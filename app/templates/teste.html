@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <h2>Cadastro de Pessoa</h2>
+    <h2>Cadastrar Pessoas</h2>
 
     <form id="cadastroForm">
         <label for="nome_completo">Nome Completo:</label>
@@ -28,10 +28,12 @@
         <button type="button" onclick="cadastrarPessoa()">Cadastrar</button>
     </form>
 
+    <pre id="resultado"></pre>
+
     <h2>Lista de Pessoas Cadastradas</h2>
     <button type="button" onclick="listarPessoas()">Listar Pessoas</button>
 
-    <pre id="resultado"></pre>
+    
     <pre id="listaPessoas"></pre>
 
     <h2>Buscar Pessoa por CPF</h2>
@@ -54,6 +56,7 @@
         <input type="text" id="deletarId" name="deletarId" required><br>
         <button type="button" onclick="deletarPessoaPorId()">Deletar por ID</button>
     </form>
+    <pre id="deletarPessoaResultado"></pre>
 
     <h2>Deletar Pessoa por CPF</h2>
     <form id="deletarPorCpfForm">
@@ -62,7 +65,7 @@
         <button type="button" onclick="deletarPessoaPorCpf()">Deletar por CPF</button>
     </form>
 
-<pre id="deletarPessoaResultado"></pre>
+    <pre id="deletarPessoaResultado2"></pre>
 
 <h2>Atualizar Pessoa por ID</h2>
 <form id="atualizarPorIdForm">
@@ -203,11 +206,11 @@
         axios.delete(`http://localhost:5000/pessoas/delete/cpf/${cpf}`)
             .then(response => {
                 console.log(response);
-                document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(response.data, null, 2);
+                document.getElementById('deletarPessoaResultado2').innerText = JSON.stringify(response.data, null, 2);
             })
             .catch(error => {
                 console.log(error)
-                document.getElementById('deletarPessoaResultado').innerText = JSON.stringify(error.response.data, null, 2);
+                document.getElementById('deletarPessoaResultado2').innerText = JSON.stringify(error.response.data, null, 2);
             });
     }
 
