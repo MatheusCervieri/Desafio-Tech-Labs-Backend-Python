@@ -50,7 +50,7 @@ Cadastra uma nova pessoa.
 - `nome_completo` (string): Nome completo da pessoa.
 - `data_nascimento` (string): Data de nascimento no formato "YYYY-MM-DD".
 - `endereco` (string): Endereço da pessoa.
-- `cpf` (string): CPF da pessoa.
+- `cpf` (string): CPF da pessoa. O cpf deve serguir o seguinte padrão "000.000.000-00"
 - `estado_civil` (string): Estado civil da pessoa.
 
 #### Resposta
@@ -82,7 +82,7 @@ Atualiza os dados de uma pessoa com base no ID.
 - **PUT** `/pessoas/edit/cpf/<string:pessoa_cpf>`
 
 #### Descrição
-Atualiza os dados de uma pessoa com base no CPF.
+Atualiza os dados de uma pessoa com base no CPF. O cpf deve serguir o seguinte padrão "000.000.000-00".
 
 #### Parâmetros no Corpo da Requisição
 - `campo` (string): Nome do campo a ser atualizado.
@@ -112,7 +112,7 @@ Lista todas as pessoas cadastradas.
 - **GET** `/pessoas/<string:cpf>`
 
 #### Descrição
-Obtém os dados de uma pessoa com base no CPF.
+Obtém os dados de uma pessoa com base no CPF. O cpf deve serguir o seguinte padrão "000.000.000-00".
 
 #### Parâmetros
 - Método: GET
@@ -156,7 +156,7 @@ Deleta uma pessoa com base no ID.
 - **DELETE** `/pessoas/delete/cpf/<string:cpf>`
 
 #### Descrição
-Deleta uma pessoa com base no CPF.
+Deleta uma pessoa com base no CPF. O cpf deve serguir o seguinte padrão "000.000.000-00".
 
 #### Resposta
 - Código 200 (OK) em caso de sucesso, com mensagem de exclusão bem-sucedida.
