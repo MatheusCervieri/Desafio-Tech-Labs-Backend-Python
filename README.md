@@ -12,22 +12,22 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 
 ### Passos:
 
-# 1. Clone o Repositório:
+#### 1. Clone o Repositório:
 
-# 2. Acesse o Diretório do Projeto:
+#### 2. Acesse o Diretório do Projeto:
 cd diretório-clonado
 
-# 3. Instale as Dependências:
+#### 3. Instale as Dependências:
 ```bash
 pip install -r requirements.txt
 ```
 
-# 4. Execute a Aplicação:
+#### 4. Execute a Aplicação:
 ```bash
 flask run 
 ```
 
-# 5. Teste as Funcionalidades:
+#### 5. Teste as Funcionalidades:
 Abra um navegador e acesse http://localhost:5000/teste (ou outra porta configurada).
 
 Essa rota irá abrir uma página html teste que permitirá que você teste a aplicação. 
