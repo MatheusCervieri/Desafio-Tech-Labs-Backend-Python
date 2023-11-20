@@ -26,11 +26,10 @@ logger = configure_logger()
 def create_app(config_name='development'):
     app = Flask(__name__)
     CORS(app)
-
-    # Configuração com base no ambiente
     
     if config_name == 'testing':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///teste.db'
+        logger.setLevel(logging.CRITICAL)
     else:
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
 
