@@ -13,7 +13,6 @@ def cadastrar():
     try:
         data = request.get_json()
 
-        # Validar campos obrigatórios
         required_fields = ['nome_completo', 'data_nascimento', 'endereco', 'cpf', 'estado_civil']
         for field in required_fields:
             if field not in data or not data[field]:
@@ -21,7 +20,7 @@ def cadastrar():
                 logger.error(error_message)
                 return jsonify({'error': error_message}), 400
 
-        # Validar formato de CPF, data de nascimento e estado civil
+    
         if not validar_cpf(data['cpf']):
             error_message = 'CPF inválido.'
             logger.error(error_message)
@@ -37,20 +36,20 @@ def cadastrar():
             logger.error(error_message)
             return jsonify({'error': error_message}), 400
 
-        # Checar na database se o cpf já existe
+       
         if Pessoa.query.filter_by(cpf=data['cpf']).first():
             error_message = 'CPF já cadastrado.'
             logger.error(error_message)
             return jsonify({'error': error_message}), 400
 
-        # Extrair dados
+
         nome_completo = data['nome_completo']
         data_nascimento = data['data_nascimento']
         endereco = data['endereco']
         cpf = data['cpf']
         estado_civil = data['estado_civil']
 
-        # Cadastrar pessoa
+
         nova_pessoa = cadastrar_pessoa(
             nome_completo=nome_completo,
             data_nascimento=data_nascimento,
@@ -59,7 +58,7 @@ def cadastrar():
             estado_civil=estado_civil
         )
 
-        # Resposta de sucesso
+        logger.info('Pessoa cadastrada com sucesso.')
         return jsonify({
             'message': 'Pessoa cadastrada com sucesso.',
             'id': nova_pessoa.id,
@@ -68,11 +67,10 @@ def cadastrar():
             'endereco': nova_pessoa.endereco,
             'cpf': nova_pessoa.cpf,
             'estado_civil': nova_pessoa.estado_civil
-        }), 201  # 201 Created é apropriado para criação de recursos
+        }), 201  
 
 
     except Exception as e:
-        # Capturar exceção genérica
         logger.error(f'Erro no cadastro de pessoa: {str(e)}')
         return jsonify({'error': 'Ocorreu um erro interno no servidor. Tente novamente mais tarde.'}), 500
     
@@ -80,52 +78,54 @@ def cadastrar():
 @pessoa_bp.route('/pessoas/edit/id/<int:pessoa_id>', methods=['PUT'])
 def atualizar_pessoa_por_id(pessoa_id):
     try:
-        # Obter dados da requisição
+  
         data = request.get_json()
 
-        # Verificar se os campos 'campo' e 'novo_valor' estão presentes no objeto JSON
-        if 'campo' not in data or 'novo_valor' not in data:
-            return jsonify({'error': 'Os campos "campo" e "novo_valor" são obrigatórios.'}), 400
+       
+        if 'campo' not in data or not data['campo'] or 'novo_valor' not in data or not data['novo_valor']:
+            error_message = 'Os campos "campo" e "novo_valor" são obrigatórios.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
 
-        # Verificar se há dois campos no objeto JSON
-        if len(data) != 2:
-            return jsonify({'error': 'Forneça exatamente dois campos: "campo" e "novo_valor".'}), 400
-        
-        # Obter a pessoa pelo ID
+
         pessoa = Pessoa.query.get(pessoa_id)
 
-        # Verificar se a pessoa existe
+       
         if not pessoa:
-            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+            error_message = 'Pessoa não encontrada.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 404
 
-     
-
-        # Obter o nome do campo e o novo valor
         campo = data.get('campo')
         novo_valor = data.get('novo_valor')
 
-        # Verificar se os valores recebidos são campo e novo_valor.
-
-        # Verificar se o campo é um atributo válido da entidade Pessoa
+      
         if not hasattr(pessoa, campo):
-            return jsonify({'error': f'O campo {campo} não é um atributo válido da entidade Pessoa.'}), 400
+            error_message = f'O campo {campo} não é um atributo válido da entidade Pessoa.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
 
-        # Validar o valor do campo
+        
         if campo == 'data_nascimento' and not validar_data_nascimento(novo_valor):
-            return jsonify({'error': 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'}), 400
+            error_message = 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
         elif campo == 'estado_civil' and not validar_estado_civil(novo_valor):
-            return jsonify({'error': 'Estado civil inválido.'}), 400
+            error_message = 'Estado civil inválido.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
         elif campo == 'cpf' and not validar_cpf(novo_valor):
-            return jsonify({'error': 'CPF inválido.'}), 400
+            error_message = 'CPF inválido.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
 
-        # Atualizar o valor do atributo na instância da pessoa
+        
         setattr(pessoa, campo, novo_valor)
 
-        # Commit das mudanças no banco de dados
+        
         atualizar_db()
 
-        # Resposta de sucesso
-        return jsonify({
+        success_response = {
             'message': 'Pessoa atualizada com sucesso.',
             'id': pessoa.id,
             'nome_completo': pessoa.nome_completo,
@@ -133,59 +133,66 @@ def atualizar_pessoa_por_id(pessoa_id):
             'endereco': pessoa.endereco,
             'cpf': pessoa.cpf,
             'estado_civil': pessoa.estado_civil
-        }), 200
+        }
+        logger.info('Pessoa atualizada com sucesso.')
+        return jsonify(success_response), 200
 
     except Exception as e:
-        print(f'Erro ao atualizar pessoa por ID: {str(e)}')
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
+        error_message = f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'
+        logger.error(f'Erro ao atualizar pessoa por ID: {str(e)}')
+        return jsonify({'error': error_message}), 500
+
 
 @pessoa_bp.route('/pessoas/edit/cpf/<string:pessoa_cpf>', methods=['PUT'])
 def atualizar_pessoa_por_cpf(pessoa_cpf):
     try:
-        # Obter dados da requisição
         data = request.get_json()
 
-        # Verificar se os campos 'campo' e 'novo_valor' estão presentes no objeto JSON
-        if 'campo' not in data or 'novo_valor' not in data:
-            return jsonify({'error': 'Os campos "campo" e "novo_valor" são obrigatórios.'}), 400
+        if 'campo' not in data or not data['campo'] or 'novo_valor' not in data or not data['novo_valor']:
+            error_message = 'Os campos "campo" e "novo_valor" são obrigatórios.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
 
-        # Verificar se há dois campos no objeto JSON
-        if len(data) != 2:
-            return jsonify({'error': 'Forneça exatamente dois campos: "campo" e "novo_valor".'}), 400
-
-        # Obter a pessoa pelo CPF
+     
         pessoa = Pessoa.query.filter_by(cpf=pessoa_cpf).first()
 
-        # Verificar se a pessoa existe
+  
         if not pessoa:
-            return jsonify({'error': 'Pessoa não encontrada.'}), 404
+            error_message = 'Pessoa não encontrada.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 404
 
-        # Obter o nome do campo e o novo valor
+    
         campo = data.get('campo')
         novo_valor = data.get('novo_valor')
 
-        # Verificar se os valores recebidos são campo e novo_valor.
-
-        # Verificar se o campo é um atributo válido da entidade Pessoa
+   
         if not hasattr(pessoa, campo):
-            return jsonify({'error': f'O campo {campo} não é um atributo válido da entidade Pessoa.'}), 400
+            error_message = f'O campo {campo} não é um atributo válido da entidade Pessoa.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
 
-        # Validar o valor do campo
+   
         if campo == 'data_nascimento' and not validar_data_nascimento(novo_valor):
-            return jsonify({'error': 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'}), 400
+            error_message = 'Data de nascimento inválida. Use o formato YYYY-MM-DD.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
         elif campo == 'estado_civil' and not validar_estado_civil(novo_valor):
-            return jsonify({'error': 'Estado civil inválido.'}), 400
+            error_message = 'Estado civil inválido.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
         elif campo == 'cpf' and not validar_cpf(novo_valor):
-            return jsonify({'error': 'CPF inválido.'}), 400
+            error_message = 'CPF inválido.'
+            logger.error(error_message)
+            return jsonify({'error': error_message}), 400
 
-        # Atualizar o valor do atributo na instância da pessoa
+        
         setattr(pessoa, campo, novo_valor)
 
-        # Commit das mudanças no banco de dados
+     
         atualizar_db()
 
-        # Resposta de sucesso
-        return jsonify({
+        success_response = {
             'message': 'Pessoa atualizada com sucesso.',
             'id': pessoa.id,
             'nome_completo': pessoa.nome_completo,
@@ -193,12 +200,15 @@ def atualizar_pessoa_por_cpf(pessoa_cpf):
             'endereco': pessoa.endereco,
             'cpf': pessoa.cpf,
             'estado_civil': pessoa.estado_civil
-        }), 200
+        }
+        logger.info('Pessoa atualizada com sucesso.')
+        return jsonify(success_response), 200
 
     except Exception as e:
-        print(f'Erro ao atualizar pessoa por CPF: {str(e)}')
-        return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
-    
+        error_message = f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'
+        logger.error(f'Erro ao atualizar pessoa por CPF: {str(e)}')
+        return jsonify({'error': error_message}), 500
+
 @pessoa_bp.route('/pessoas', methods=['GET'])
 def listar_pessoas():
     try:
@@ -239,7 +249,6 @@ def obter_pessoa_por_cpf(cpf):
         pessoa = Pessoa.query.filter_by(cpf=cpf).first()
 
         if pessoa:
-            # Retorna os dados da pessoa
             return jsonify({
                 'message': 'Pessoa encontrada.',
                 'id': pessoa.id,
