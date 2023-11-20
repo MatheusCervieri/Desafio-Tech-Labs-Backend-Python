@@ -25,9 +25,8 @@ logger = configure_logger()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE"])
+    CORS(app)
     
-    app.config.from_object('config.config')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
