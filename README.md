@@ -30,9 +30,13 @@ flask run
 ```
 
 #### 5. Teste as Funcionalidades:
-Abra um navegador e acesse http://localhost:5000/teste (ou outra porta configurada).
+Abra um navegador e acesse a url abaixo: (ou outra porta configurada).
 
-Essa rota irá abrir uma página html criado por mim que permitirá que você teste a aplicação. 
+```bash
+http://localhost:5000/teste
+```
+
+Essa rota irá abrir uma página html criada por mim que permitirá que você teste a aplicação. 
 
 Você também pode utilizar ferramentas como curl ou Postman para testar as operações/rotas de CRUD que serão listadas abaixo.
 
@@ -46,9 +50,32 @@ Além disso, eu criei no servidor uma página html que contem a documentação d
 ```bash
 http://localhost:5000/documentacao
 ```
+
 Observe que o servidor precisa estar ativo para a url funcionar.
 
+#### 7. Testes automatizados:
 
+Eu também criei alguns testes automatizados para as principais rotas.
+
+Para rodar os testes você pode executar os comandos abaixo dentro do diretório do projeto:
+
+Testar rota de cadastrar novo usuário:
+
+```bash
+python -m unittest ./app/tests/test_cadastrar.py
+```
+
+Testar rotas que modificam os usuários:
+
+```bash
+python -m unittest ./app/tests/test_editar.py
+```
+
+Testar rotas que listam os usuários e deletam os usuários:
+
+```bash
+python -m unittest ./app/tests/test_get_delete.py
+```
 
 # Documentação da API
 
