@@ -86,6 +86,26 @@ python -m unittest ./app/tests/test_get_delete.py
 
 <img src="imagens/tests.png" >
 
+# O que foi feito?
+
+## 1. Defini as rotas e a arquitetura
+
+Decidi criar 8 endpoints que serão listas na documentação no final desse readme. Além disso, escolhi usar a arquitetura MVC(Model, View Controller).
+
+As rotas foram definidas dentro do view, sendo as rotas da api atribuidas a alterações na database da pessoa dentro do arquivo "pessoa_view.py":
+
+<img src="imagens/pessoa_view.png" >
+
+## 2. Implementei a lógica para armazenar dados utilizando uma database
+
+Para armazenar as informações resolvi utilizar o SQLAlchemy com o banco de dados SQLite.
+
+O SQLAlchemy é um ORM (Object-Relational Mapper) para Python. Ele fornece uma abstração sobre bancos de dados relacionais, permitindo que você interaja com o banco de dados usando objetos Python em vez de escrever diretamente em SQL.
+
+Eu criei uma classe "Pessoa" que representa a minha entidade. Essa classe herda a classe "Model" fornecida pelo SQLAlchemy indicando que é uma classe que representa o banco de dados.
+
+<img src="imagens/estrutura_dados.png" >
+
 # Documentação da API
 
 ## 1. Cadastrar Pessoa
