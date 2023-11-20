@@ -15,7 +15,9 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 #### 1. Clone o Repositório:
 
 #### 2. Acesse o Diretório do Projeto:
+```bash
 cd diretório-clonado
+```
 
 #### 3. Instale as Dependências:
 ```bash
@@ -32,7 +34,134 @@ Abra um navegador e acesse http://localhost:5000/teste (ou outra porta configura
 
 Essa rota irá abrir uma página html teste que permitirá que você teste a aplicação. 
 
-Você também pode utilizar ferramentas como curl ou Postman para testar as operações de CRUD.
+Você também pode utilizar ferramentas como curl ou Postman para testar as operações/rotas de CRUD que serão listadas abaixo.
+
+# Documentação da API
+
+## 1. Cadastrar Pessoa
+
+### Rota
+- **POST** `/pessoas/adicionar`
+
+#### Descrição
+Cadastra uma nova pessoa.
+
+#### Parâmetros no Corpo da Requisição
+- `nome_completo` (string): Nome completo da pessoa.
+- `data_nascimento` (string): Data de nascimento no formato "YYYY-MM-DD".
+- `endereco` (string): Endereço da pessoa.
+- `cpf` (string): CPF da pessoa.
+- `estado_civil` (string): Estado civil da pessoa.
+
+#### Resposta
+- Código 201 (Created) em caso de sucesso, com os dados da pessoa cadastrada.
+- Código 400 (Bad Request) em caso de campos obrigatórios ausentes ou inválidos.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 2. Atualizar Pessoa por ID
+
+### Rota
+- **PUT** `/pessoas/edit/id/<int:pessoa_id>`
+
+#### Descrição
+Atualiza os dados de uma pessoa com base no ID.
+
+#### Parâmetros no Corpo da Requisição
+- `campo` (string): Nome do campo a ser atualizado.
+- `novo_valor` (string): Novo valor para o campo especificado.
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com os dados atualizados da pessoa.
+- Código 400 (Bad Request) em caso de campos ausentes ou inválidos.
+- Código 404 (Not Found) se a pessoa com o ID especificado não for encontrada.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 3. Atualizar Pessoa por CPF
+
+### Rota
+- **PUT** `/pessoas/edit/cpf/<string:pessoa_cpf>`
+
+#### Descrição
+Atualiza os dados de uma pessoa com base no CPF.
+
+#### Parâmetros no Corpo da Requisição
+- `campo` (string): Nome do campo a ser atualizado.
+- `novo_valor` (string): Novo valor para o campo especificado.
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com os dados atualizados da pessoa.
+- Código 400 (Bad Request) em caso de campos ausentes ou inválidos.
+- Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 4. Listar Pessoas
+
+### Rota
+- **GET** `/pessoas`
+
+#### Descrição
+Lista todas as pessoas cadastradas.
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com a lista de pessoas cadastradas.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 5. Obter Pessoa por CPF
+
+### Rota
+- **GET** `/pessoas/<string:cpf>`
+
+#### Descrição
+Obtém os dados de uma pessoa com base no CPF.
+
+#### Parâmetros
+- Método: GET
+- Caminho: `/pessoas/<string:cpf>`
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com os dados da pessoa.
+- Código 400 (Bad Request) se o CPF for inválido.
+- Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 6. Obter Pessoa por ID
+
+### Rota
+- **GET** `/pessoas/id/<int:pessoa_id>`
+
+#### Descrição
+Obtém os dados de uma pessoa com base no ID.
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com os dados da pessoa.
+- Código 404 (Not Found) se a pessoa com o ID especificado não for encontrada.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 7. Deletar Pessoa por ID
+
+### Rota
+- **DELETE** `/pessoas/delete/id/<int:pessoa_id>`
+
+#### Descrição
+Deleta uma pessoa com base no ID.
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com mensagem de exclusão bem-sucedida.
+- Código 404 (Not Found) se a pessoa com o ID especificado não for encontrada.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
+
+## 8. Deletar Pessoa por CPF
+
+### Rota
+- **DELETE** `/pessoas/delete/cpf/<string:cpf>`
+
+#### Descrição
+Deleta uma pessoa com base no CPF.
+
+#### Resposta
+- Código 200 (OK) em caso de sucesso, com mensagem de exclusão bem-sucedida.
+- Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.
+- Código 500 (Internal Server Error) em caso de erro interno no servidor.
 
 ## Visual Overview
 
