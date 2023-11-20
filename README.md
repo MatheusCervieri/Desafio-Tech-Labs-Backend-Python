@@ -1,6 +1,9 @@
 # Desafio Back-End: Api em Python Usando Flask para realizar operações CRUD com funcionários de uma empresa.
 
 <img src="imagens/cadastrar.png" alt="Cadastrar">
+<img src="imagens/servidor.png" >
+<img src="imagens/listarpessoas.png" >
+
 
 ### Contexto!
 
