@@ -23,27 +23,32 @@ def configure_logger():
 logger = configure_logger()
 
 
-def create_app():
+def create_app(config_name='development'):
     app = Flask(__name__)
     CORS(app)
+
+    # Configuração com base no ambiente
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
+    if config_name == 'testing':
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///teste.db'
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
 
     db.init_app(app)
 
-
     from .views.pessoa_view import pessoa_bp
     app.register_blueprint(pessoa_bp)
+
     from app.views.teste_view import teste_bp
     app.register_blueprint(teste_bp)
+
     from app.views.documentation_view import documentation_bp
     app.register_blueprint(documentation_bp)
 
     with app.app_context():
+        # Criação do banco de dados
         db.create_all()
-
 
     return app
