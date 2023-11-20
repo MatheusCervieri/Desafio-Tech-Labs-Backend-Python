@@ -57,7 +57,7 @@ Observe que o servidor precisa estar ativo para a url funcionar.
 
 Eu também criei alguns testes automatizados para as principais rotas.
 
-Para rodar os testes você pode executar os comandos abaixo dentro do diretório do projeto:
+Para rodar os testes, você pode executar os comandos abaixo dentro do diretório do projeto:
 
 Testar rota de cadastrar novo usuário:
 
