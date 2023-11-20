@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação da API</title>
+</head>
+<body>
+
+    <h1>Documentação da API</h1>
+
+    <h2>1. Cadastrar Pessoa</h2>
+    <p><strong>Rota:</strong> <code>POST /pessoas/adicionar</code></p>
+    <p><strong>Descrição:</strong> Cadastra uma nova pessoa.</p>
+    <p><strong>Parâmetros no Corpo da Requisição:</strong></p>
+    <ul>
+        <li><code>nome_completo</code> (string): Nome completo da pessoa.</li>
+        <li><code>data_nascimento</code> (string): Data de nascimento no formato "YYYY-MM-DD".</li>
+        <li><code>endereco</code> (string): Endereço da pessoa.</li>
+        <li><code>cpf</code> (string): CPF da pessoa. O cpf deve seguir o seguinte padrão "000.000.000-00"</li>
+        <li><code>estado_civil</code> (string): Estado civil da pessoa.</li>
+    </ul>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 201 (Created) em caso de sucesso, com os dados da pessoa cadastrada.</li>
+        <li>Código 400 (Bad Request) em caso de campos obrigatórios ausentes ou inválidos.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+
+    <h2>2. Atualizar Pessoa por ID</h2>
+    <p><strong>Rota:</strong> <code>PUT /pessoas/edit/id/&lt;int:pessoa_id&gt;</code></p>
+    <p><strong>Descrição:</strong> Atualiza os dados de uma pessoa com base no ID.</p>
+    <p><strong>Parâmetros no Corpo da Requisição:</strong></p>
+    <ul>
+        <li><code>campo</code> (string): Nome do campo a ser atualizado.</li>
+        <li><code>novo_valor</code> (string): Novo valor para o campo especificado.</li>
+    </ul>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com os dados atualizados da pessoa.</li>
+        <li>Código 400 (Bad Request) em caso de campos ausentes ou inválidos.</li>
+        <li>Código 404 (Not Found) se a pessoa com o ID especificado não for encontrada.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+
+    <h2>3. Atualizar Pessoa por CPF</h2>
+    <p><strong>Rota:</strong> <code>PUT /pessoas/edit/cpf/&lt;string:pessoa_cpf&gt;</code></p>
+    <p><strong>Descrição:</strong> Atualiza os dados de uma pessoa com base no CPF. O cpf deve seguir o seguinte padrão "000.000.000-00".</p>
+    <p><strong>Parâmetros no Corpo da Requisição:</strong></p>
+    <ul>
+        <li><code>campo</code> (string): Nome do campo a ser atualizado.</li>
+        <li><code>novo_valor</code> (string): Novo valor para o campo especificado.</li>
+    </ul>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com os dados atualizados da pessoa.</li>
+        <li>Código 400 (Bad Request) em caso de campos ausentes ou inválidos.</li>
+        <li>Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+    <h2>4. Listar Pessoas</h2>
+    <p><strong>Rota:</strong> <code>GET /pessoas</code></p>
+    <p><strong>Descrição:</strong> Lista todas as pessoas cadastradas.</p>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com a lista de pessoas cadastradas.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+ 
+    <h2>5. Obter Pessoa por CPF</h2>
+    <p><strong>Rota:</strong> <code>GET /pessoas/&lt;string:cpf&gt;</code></p>
+    <p><strong>Descrição:</strong> Obtém os dados de uma pessoa com base no CPF. O cpf deve seguir o seguinte padrão "000.000.000-00".</p>
+    <p><strong>Parâmetros:</strong></p>
+    <ul>
+        <li>Método: GET</li>
+        <li>Caminho: <code>/pessoas/&lt;string:cpf&gt;</code></li>
+    </ul>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com os dados da pessoa.</li>
+        <li>Código 400 (Bad Request) se o CPF for inválido.</li>
+        <li>Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+ 
+    <h2>6. Obter Pessoa por ID</h2>
+    <p><strong>Rota:</strong> <code>GET /pessoas/id/&lt;int:pessoa_id&gt;</code></p>
+    <p><strong>Descrição:</strong> Obtém os dados de uma pessoa com base no ID.</p>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com os dados da pessoa.</li>
+        <li>Código 404 (Not Found) se a pessoa com o ID especificado não for encontrada.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+    <h2>7. Deletar Pessoa por ID</h2>
+    <p><strong>Rota:</strong> <code>DELETE /pessoas/delete/id/&lt;int:pessoa_id&gt;</code></p>
+    <p><strong>Descrição:</strong> Deleta uma pessoa com base no ID.</p>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com mensagem de exclusão bem-sucedida.</li>
+        <li>Código 404 (Not Found) se a pessoa com o ID especificado não for encontrada.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+    <h2>8. Deletar Pessoa por CPF</h2>
+    <p><strong>Rota:</strong> <code>DELETE /pessoas/delete/cpf/&lt;string:cpf&gt;</code></p>
+    <p><strong>Descrição:</strong> Deleta uma pessoa com base no CPF. O cpf deve seguir o seguinte padrão "000.000.000-00".</p>
+    <p><strong>Resposta:</strong></p>
+    <ul>
+        <li>Código 200 (OK) em caso de sucesso, com mensagem de exclusão bem-sucedida.</li>
+        <li>Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.</li>
+        <li>Código 500 (Internal Server Error) em caso de erro interno no servidor.</li>
+    </ul>
+
+
+</body>
+</html>

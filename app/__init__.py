@@ -39,6 +39,8 @@ def create_app():
     app.register_blueprint(pessoa_bp)
     from app.views.teste_view import teste_bp
     app.register_blueprint(teste_bp)
+    from app.views.documentation_view import documentation_bp
+    app.register_blueprint(documentation_bp)
 
     with app.app_context():
         db.create_all()

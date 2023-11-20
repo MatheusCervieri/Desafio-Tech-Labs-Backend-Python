@@ -32,9 +32,23 @@ flask run
 #### 5. Teste as Funcionalidades:
 Abra um navegador e acesse http://localhost:5000/teste (ou outra porta configurada).
 
-Essa rota irá abrir uma página html teste que permitirá que você teste a aplicação. 
+Essa rota irá abrir uma página html criado por mim que permitirá que você teste a aplicação. 
 
 Você também pode utilizar ferramentas como curl ou Postman para testar as operações/rotas de CRUD que serão listadas abaixo.
+
+#### 6. Documentação:
+Uma documentação com todas as rotas da api foi criada, e você pode utiliza-la para saber o que deve ter em cada requisição.
+
+Você encontra uma descrição de todas as rotas nas próximas sessões desse readme.
+
+Além disso, eu criei no servidor uma página html que contem a documentação da api, ela pode ser acessada na rota:
+
+```bash
+http://localhost:5000/documentacao
+```
+Observe que o servidor precisa estar ativo para a url funcionar.
+
+
 
 # Documentação da API
 
