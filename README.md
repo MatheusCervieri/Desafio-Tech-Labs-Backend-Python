@@ -58,6 +58,8 @@ http://localhost:5000/documentacao
 
 Observe que o servidor precisa estar ativo para a url funcionar.
 
+<img src="imagens/documentacao.png" >
+
 #### 7. Testes automatizados:
 
 Eu também criei alguns testes automatizados para as principais rotas.
@@ -81,6 +83,8 @@ Testar rotas que listam os usuários e deletam os usuários:
 ```bash
 python -m unittest ./app/tests/test_get_delete.py
 ```
+
+<img src="imagens/tests.png" >
 
 # Documentação da API
 

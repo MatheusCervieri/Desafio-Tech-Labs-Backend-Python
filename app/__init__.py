@@ -74,6 +74,7 @@ def create_app(config_name='development'):
     f"{Fore.YELLOW}- http://127.0.0.1:5000/documentacao{Style.RESET_ALL} => Documentação de todas as rotas do servidor\n"
     f"{Fore.MAGENTA}Divirta-se explorando as funcionalidades!{Style.RESET_ALL}"
     )
-    print(welcome_message)
+    if not config_name == 'testing':
+        print(welcome_message)
 
     return app
