@@ -5,7 +5,7 @@ from app import create_app
 from app.views.pessoa_view import pessoa_bp  
 from app import db
 
-#python -m unittest ./app/tests/tests.py
+#python -m unittest ./app/tests/test_cadastrar.py
 
 class TestCadastroPessoa(unittest.TestCase):
     def setUp(self):
