@@ -212,10 +212,7 @@ def atualizar_pessoa_por_cpf(pessoa_cpf):
 @pessoa_bp.route('/pessoas', methods=['GET'])
 def listar_pessoas():
     try:
-        # Consultar todas as pessoas cadastradas
         pessoas = Pessoa.query.all()
-
-        # Criar lista de dicionários com informações sobre cada pessoa
         pessoas_info = []
         for pessoa in pessoas:
             pessoa_info = {
@@ -227,15 +224,9 @@ def listar_pessoas():
                 'estado_civil': pessoa.estado_civil
             }
             pessoas_info.append(pessoa_info)
-
-        # Resposta de sucesso
         return jsonify({'pessoas': pessoas_info}), 200
-
     except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro ao listar pessoas: {str(e)}')
-
-        # Retornar detalhes do erro na resposta JSON
+        logger.error(f'Erro ao listar pessoas: {str(e)}')
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
 
 @pessoa_bp.route('/pessoas/<string:cpf>', methods=['GET'])
@@ -243,95 +234,79 @@ def obter_pessoa_por_cpf(cpf):
     try:
         if not validar_cpf(cpf):
             error_message = 'CPF inválido.'
-            print(error_message)
+            logger.error(error_message)
             return jsonify({'error': error_message}), 400
-        
         pessoa = Pessoa.query.filter_by(cpf=cpf).first()
-
         if pessoa:
             return jsonify({
                 'message': 'Pessoa encontrada.',
                 'id': pessoa.id,
                 'nome_completo': pessoa.nome_completo,
-                'data_nascimento': pessoa.data_nascimento,
+                'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
                 'endereco': pessoa.endereco,
                 'cpf': pessoa.cpf,
                 'estado_civil': pessoa.estado_civil
             })
         else:
-            print("Pessoa não encontrada.")
+            logger.error("Pessoa não encontrada.")
             return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
     except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro ao obter pessoa por CPF: {str(e)}')
-
-        # Retornar detalhes do erro na resposta JSON
-        
+        logger.error(f'Erro ao obter pessoa por CPF: {str(e)}')
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
 
 @pessoa_bp.route('/pessoas/id/<int:pessoa_id>', methods=['GET'])
 def obter_pessoa_por_id(pessoa_id):
     try:
         pessoa = Pessoa.query.get(pessoa_id)
-
         if pessoa:
-            # Retorna os dados da pessoa
             return jsonify({
                 'message': 'Pessoa encontrada.',
                 'id': pessoa.id,
                 'nome_completo': pessoa.nome_completo,
-                'data_nascimento': pessoa.data_nascimento,
+                'data_nascimento': pessoa.data_nascimento.strftime('%Y-%m-%d'),
                 'endereco': pessoa.endereco,
                 'cpf': pessoa.cpf,
                 'estado_civil': pessoa.estado_civil
             })
         else:
-            # ID não encontrado
-            print("Pessoa não encontrada ou id inválido.")
+            logger.error('Pessoa não encontrada ou id inválido.')
             return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
     except Exception as e:
-        # Imprimir detalhes do erro no console
-        print(f'Erro ao obter pessoa por ID: {str(e)}')
-
-        # Retornar detalhes do erro na resposta JSON
+        logger.error(f'Erro ao obter pessoa por ID: {str(e)}')
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
-    
-
-
 
 @pessoa_bp.route('/pessoas/delete/id/<int:pessoa_id>', methods=['DELETE'])
 def deletar_pessoa_por_id(pessoa_id):
     try:
         pessoa = Pessoa.query.get(pessoa_id)
-
         if pessoa:
             if deletar_pessoa_db(pessoa):  
+                logger.info('Pessoa deletada com sucesso.')
                 return jsonify({'message': 'Pessoa deletada com sucesso.'}), 200
             else:
+                logger.error('Erro ao deletar pessoa.')
                 return jsonify({'error': 'Erro ao deletar pessoa.'}), 500
         else:
+            logger.error('Pessoa não encontrada.')
             return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
     except Exception as e:
-        print(f'Erro ao deletar pessoa por ID: {str(e)}')
+        logger.error(f'Erro ao deletar pessoa por ID: {str(e)}')
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
 
 @pessoa_bp.route('/pessoas/delete/cpf/<string:cpf>', methods=['DELETE'])
 def deletar_pessoa_por_cpf(cpf):
     try:
         pessoa = Pessoa.query.filter_by(cpf=cpf).first()
-
         if pessoa:
             if deletar_pessoa_db(pessoa): 
+                logger.info('Pessoa deletada com sucesso.')
                 return jsonify({'message': 'Pessoa deletada com sucesso.'}), 200
             else:
+                logger.error('Erro ao deletar pessoa.')
                 return jsonify({'error': 'Erro ao deletar pessoa.'}), 500
         else:
+            logger.error('Pessoa não encontrada.')
             return jsonify({'error': 'Pessoa não encontrada.'}), 404
-
     except Exception as e:
-        print(f'Erro ao deletar pessoa por CPF: {str(e)}')
+        logger.error(f'Erro ao deletar pessoa por CPF: {str(e)}')
         return jsonify({'error': f'Ocorreu um erro interno no servidor. Detalhes: {str(e)}'}), 500
-
