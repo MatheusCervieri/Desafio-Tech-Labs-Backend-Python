@@ -12,11 +12,12 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 # Índice
 
 - [Contexto](#contexto)
-- [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicacao-localmente)
+- [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicaçao-localmente)
 - [O que foi feito?](#o-que-foi-feito)
-- [Documentação da API](#documentacao-da-api)
+- [Documentação da API](#documentaçao-da-api)
+- [Imagens Demonstrativas](#imagens-demonstrativas)
 
-## Passo a Passo para Executar a Aplicação Localmente:
+# Passo a Passo para Executar a Aplicação Localmente:
 
 ### Pré-requisitos:
 1. Certifique-se de ter o Python instalado em sua máquina. Você pode baixá-lo em [python.org](https://www.python.org/downloads/).
@@ -284,3 +285,12 @@ Deleta uma pessoa com base no CPF. O cpf deve serguir o seguinte padrão "000.00
 - Código 500 (Internal Server Error) em caso de erro interno no servidor.
 
 
+# Imagens Demonstrativas
+
+<img src="imagens/cadastrar.png" alt="Cadastrar">
+<img src="imagens/servidor.png" >
+<img src="imagens/listarpessoas.png" >
+<img src="imagens/dm1.png" alt="Cadastrar">
+<img src="imagens/dm2.png" >
+<img src="imagens/dm3.png" >
+<img src="imagens/dm4.png" >
