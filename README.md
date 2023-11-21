@@ -9,6 +9,29 @@
 
 Você está atuando como estagiário em uma empresa de tecnologia que está desenvolvendo uma API simples para cadastro e gestão de pessoas. O projeto surgiu em resposta a uma solicitação específica do cliente, que busca uma aplicação capaz de cadastrar informações básicas sobre funcionários e realizar operações de consulta, atualização e exclusão desses registros. A API será construída em Python, utilizando o framework de escolha do desenvolvedor (FastAPI, Flask, Django, etc.).
 
+# Índice
+
+- [Contexto](#contexto)
+- [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicacao-localmente)
+  - [Pré-requisitos](#pre-requisitos)
+  - [Passos](#passos)
+- [O que foi feito?](#o-que-foi-feito)
+  - [Definição de Rotas e Arquitetura](#definicao-de-rotas-e-arquitetura)
+  - [Implementação da Lógica para Armazenamento de Dados](#implementacao-da-logica-para-armazenamento-de-dados)
+  - [Validação de Dados](#validacao-de-dados)
+  - [Operações de CRUD](#operacoes-de-crud)
+  - [Páginas HTML](#paginas-html)
+  - [Testes Automatizados](#testes-automatizados)
+- [Documentação da API](#documentacao-da-api)
+  - [1. Cadastrar Pessoa](#1-cadastrar-pessoa)
+  - [2. Atualizar Pessoa por ID](#2-atualizar-pessoa-por-id)
+  - [3. Atualizar Pessoa por CPF](#3-atualizar-pessoa-por-cpf)
+  - [4. Listar Pessoas](#4-listar-pessoas)
+  - [5. Obter Pessoa por CPF](#5-obter-pessoa-por-cpf)
+  - [6. Obter Pessoa por ID](#6-obter-pessoa-por-id)
+  - [7. Deletar Pessoa por ID](#7-deletar-pessoa-por-id)
+  - [8. Deletar Pessoa por CPF](#8-deletar-pessoa-por-cpf)
+
 ## Passo a Passo para Executar a Aplicação Localmente:
 
 ### Pré-requisitos:
@@ -106,16 +129,6 @@ Eu criei uma classe "Pessoa" que representa a minha entidade. Essa classe herda 
 
 <img src="imagens/estrutura_dados.png" >
 
-## 2. Implementei a lógica para armazenar dados utilizando uma database
-
-Para armazenar as informações resolvi utilizar o SQLAlchemy com o banco de dados SQLite.
-
-O SQLAlchemy é um ORM (Object-Relational Mapper) para Python. Ele fornece uma abstração sobre bancos de dados relacionais, permitindo que você interaja com o banco de dados usando objetos Python em vez de escrever diretamente em SQL.
-
-Eu criei uma classe "Pessoa" que representa a minha entidade. Essa classe herda a classe "Model" fornecida pelo SQLAlchemy indicando que é uma classe que representa o banco de dados.
-
-<img src="imagens/estrutura_dados.png" >
-
 ## 3. Validação de dados
 
 Validei vários dos dados recebidos para garantir a segurança da aplicação. Fazendo o processo de validação e sanitização.
@@ -125,6 +138,39 @@ Validei vários dos dados recebidos para garantir a segurança da aplicação. F
 <img src="imagens/validacao2.png" >
 
 <img src="imagens/validacoes3.png" >
+
+## 4. Operações de CRUD (Create, Read, Update, Delete):
+
+Eu criei as 4 operações principais de uma API (Create, Read, Update e Delete) e fiz isso através de 8 endpoints:
+
+- http://127.0.0.1:5000/pessoas/adicionar (POST) => Cadastrar uma nova pessoa
+- http://127.0.0.1:5000/pessoas/edit/id/<int:pessoa_id> (PUT) => Atualizar Pessoa por ID
+- http://127.0.0.1:5000/pessoas/edit/cpf/<string:pessoa_cpf> (PUT) => Atualizar Pessoa por CPF
+- http://127.0.0.1:5000/pessoas (GET) => Listar Pessoas
+- http://127.0.0.1:5000/pessoas/<string:cpf> (GET) => Obter Pessoa por CPF
+- http://127.0.0.1:5000/pessoas/id/<int:pessoa_id> (GET) => Obter Pessoa por ID
+- http://127.0.0.1:5000/pessoas/delete/id/<int:pessoa_id> (DELETE) => Deletar Pessoa por ID
+- http://127.0.0.1:5000/pessoas/delete/cpf/<string:cpf> (DELETE) => Deletar Pessoa por CPF
+
+
+<img src="imagens/pessoa-cpf.png" >
+
+## 5. Páginas html.
+
+Foi criado duas páginas htmls estáticas dentro do servidor da api para ajudar o usuário a testar a aplicação da melhor maneira possível:
+
+- http://127.0.0.1:5000/teste => Página html que permite fazer requisições para todas as rotas (use para testar).
+- http://127.0.0.1:5000/documentacao => Documentação de todas as rotas do servidor.
+
+<img src="imagens/atualizar-cpf-html.png" >
+
+<img src="imagens/documentacao-itau.png" >
+
+## 6. Testes Automatizados.
+
+Eu também criei testes automatizados para testar algumas das principais rotas:
+
+<img src="imagens/testes_automatizados.png" >
 
 # Documentação da API
 
@@ -253,12 +299,4 @@ Deleta uma pessoa com base no CPF. O cpf deve serguir o seguinte padrão "000.00
 - Código 404 (Not Found) se a pessoa com o CPF especificado não for encontrada.
 - Código 500 (Internal Server Error) em caso de erro interno no servidor.
 
-## Index
-
-*  [Summary](#Summary)
-*  [Main Technologies](#Main-Technologies)
-*  [Visual Overview](#visual-overview)
-*  [Usage](#Usage)
-*  [What was done in the project?!](#What-was-done-in-the-project)
-*  [Requirements](#Requirements)
 
