@@ -13,24 +13,8 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 
 - [Contexto](#contexto)
 - [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicacao-localmente)
-  - [Pré-requisitos](#pre-requisitos)
-  - [Passos](#passos)
 - [O que foi feito?](#o-que-foi-feito)
-  - [Definição de Rotas e Arquitetura](#definicao-de-rotas-e-arquitetura)
-  - [Implementação da Lógica para Armazenamento de Dados](#implementacao-da-logica-para-armazenamento-de-dados)
-  - [Validação de Dados](#validacao-de-dados)
-  - [Operações de CRUD](#operacoes-de-crud)
-  - [Páginas HTML](#paginas-html)
-  - [Testes Automatizados](#testes-automatizados)
 - [Documentação da API](#documentacao-da-api)
-  - [1. Cadastrar Pessoa](#1-cadastrar-pessoa)
-  - [2. Atualizar Pessoa por ID](#2-atualizar-pessoa-por-id)
-  - [3. Atualizar Pessoa por CPF](#3-atualizar-pessoa-por-cpf)
-  - [4. Listar Pessoas](#4-listar-pessoas)
-  - [5. Obter Pessoa por CPF](#5-obter-pessoa-por-cpf)
-  - [6. Obter Pessoa por ID](#6-obter-pessoa-por-id)
-  - [7. Deletar Pessoa por ID](#7-deletar-pessoa-por-id)
-  - [8. Deletar Pessoa por CPF](#8-deletar-pessoa-por-cpf)
 
 ## Passo a Passo para Executar a Aplicação Localmente:
 
