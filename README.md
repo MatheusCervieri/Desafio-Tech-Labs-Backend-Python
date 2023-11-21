@@ -159,6 +159,8 @@ Eu também criei testes automatizados para testar algumas das principais rotas:
 
 # Rotas Api
 
+Segue abaixo a documentação das 8 rotas da api:
+
 ## 1. Cadastrar Pessoa
 
 ### Rota
