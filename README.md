@@ -14,7 +14,7 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 - [Contexto](#contexto)
 - [Passo a Passo para Executar o Servidor Localmente](#passo-a-passo-para-executar-o-servidor-localmente)
 - [O que foi feito?](#o-que-foi-feito)
-- [Documentação da API](#documenta%C3%ao-da-api)
+- [Documentação da API](#documentacao-da-api)
 - [Imagens Demonstrativas](#imagens-demonstrativas)
 
 # Passo a Passo para Executar o Servidor Localmente
@@ -157,7 +157,7 @@ Eu também criei testes automatizados para testar algumas das principais rotas:
 
 <img src="imagens/testes_automatizados.png" >
 
-# Documentação da API
+# Documentacão da API
 
 ## 1. Cadastrar Pessoa
 
