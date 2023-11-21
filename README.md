@@ -12,12 +12,12 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 # Índice
 
 - [Contexto](#contexto)
-- [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicacao-localmente)
+- [Passo a Passo para Executar](#passo-a-passo-para-executar)
 - [O que foi feito?](#o-que-foi-feito)
 - [Documentação da API](#documentacao-da-api)
 - [Imagens Demonstrativas](#imagens-demonstrativas)
 
-# Passo a Passo para Executar a Aplicação Localmente:
+# Passo a Passo para Executar
 
 ### Pré-requisitos:
 1. Certifique-se de ter o Python instalado em sua máquina. Você pode baixá-lo em [python.org](https://www.python.org/downloads/).
