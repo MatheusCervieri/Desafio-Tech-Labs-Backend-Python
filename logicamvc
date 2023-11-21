@@ -1,8 +1,0 @@
-Fluxo de Funcionamento no MVC:
-
-O usuário interage com a View.
-A View envia comandos (por exemplo, cliques de botões, formulários) para o Controller.
-O Controller interpreta esses comandos e toma decisões com base na lógica de negócios.
-O Controller atualiza o Model conforme necessário.
-O Model atualizado notifica a View sobre as mudanças nos dados.
-A View atualiza a interface do usuário para refletir as alterações.
