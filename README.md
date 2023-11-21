@@ -12,9 +12,9 @@ Você está atuando como estagiário em uma empresa de tecnologia que está dese
 # Índice
 
 - [Contexto](#contexto)
-- [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicaçao-localmente)
+- [Passo a Passo para Executar a Aplicação Localmente](#passo-a-passo-para-executar-a-aplicacao-localmente)
 - [O que foi feito?](#o-que-foi-feito)
-- [Documentação da API](#documentaçao-da-api)
+- [Documentação da API](#documentacao-da-api)
 - [Imagens Demonstrativas](#imagens-demonstrativas)
 
 # Passo a Passo para Executar a Aplicação Localmente:
